@@ -19,17 +19,17 @@ public class CoinSorter {
 		denominations.add(200);
 		denominations.add(100);
 		denominations.add(50);
-		denominations.add(30);
+		denominations.add(20);
 		denominations.add(10);
 
 		CoinSorter TestCoinSorter = new CoinSorter("£", 5, 10, denominations);
 		TestCoinSorter.printCoinList();
 
-		System.out.println(TestCoinSorter.coinCalculator(562, 50));
-		System.out.println(TestCoinSorter.coinCalculator(352, 100));
+//		System.out.println(TestCoinSorter.coinCalculator(562, 50));
+//		System.out.println(TestCoinSorter.coinCalculator(352, 100));
 //		TestCoinSorter.coinCalculator(600, 2);
-//		TestCoinSorter.coinCalculator(941, 2);
-
+		TestCoinSorter.multiCoinCalculator(941, 2);
+		TestCoinSorter.multiCoinCalculator(562, 50);
 	}
 
 	/**
@@ -101,22 +101,62 @@ public class CoinSorter {
 	 * 
 	 */
 	public String coinCalculator(int total, int coinType) {
+		String output;
+		String coinCurrency;
 		int totalCoins = total / coinType;
 		int remainder = total % coinType;
-		String currency;
 
 		if (coinType == 200 || coinType == 100) {
-			currency = "£" + coinType / 100;
+			coinCurrency = "£" + coinType / 100;
 		} else {
-			currency = coinType + "p";
+			coinCurrency = coinType + "p";
 		}
 
-		String output = "A total of " + totalCoins + " x " + currency + " coins can be exchanged";
+		output = "A total of " + totalCoins + " x " + coinCurrency + " coins can be exchanged";
 
 		if (remainder > 0) {
 			output += ", with a remainder of " + remainder + "p";
 		}
 
 		return output;
+	}
+
+	/**
+	 * multiCoinCalculator(int, int) : String • This method should take two values;
+	 * the total value to exchange and a coin type to exclude, in order to calculate
+	 * and return the maximum number of coins of the input coin type that can be
+	 * exchanged while excluding the input coin type, in addition to the remainder
+	 * as a string. For example, multiCoinCalculator(562, 50) may return “The coins
+	 * exchanged are: 2 x 200p, 1 x 100p, 0 x 50p, 3 x 20p, 0 x 10p, with a
+	 * remainder of 2p”.
+	 * 
+	 */
+
+	public String multiCoinCalculator(int total, int denominationToExclude) {
+		int rollingTotal = total;
+		String output = "The coins exchanged are: ";
+
+		for (int i = 0; i < coinList.size(); i++) {
+			int denomination = coinList.get(i);
+			int coinNum = 0;
+
+			if (rollingTotal > denomination && denomination != denominationToExclude) {
+				coinNum = rollingTotal / denomination;
+				rollingTotal = rollingTotal % denomination;
+			}
+
+			if (i > 1) {
+				output += ", ";
+			}
+			output += coinNum + " x " + denomination + "p";
+		}
+
+		if (rollingTotal > 0) {
+			output += ", with a remainder of " + rollingTotal + "p";
+		}
+
+		System.out.println(output);
+		return output;
+
 	}
 }
