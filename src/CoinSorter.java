@@ -14,24 +14,6 @@ public class CoinSorter {
 	private int maxCoinIn;
 	private List<Integer> coinList;
 
-	public static void main(String[] args) {
-		List<Integer> denominations = new ArrayList<>();
-		denominations.add(200);
-		denominations.add(100);
-		denominations.add(50);
-		denominations.add(20);
-		denominations.add(10);
-
-		CoinSorter TestCoinSorter = new CoinSorter("£", 5, 10, denominations);
-		TestCoinSorter.printCoinList();
-
-//		System.out.println(TestCoinSorter.coinCalculator(562, 50));
-//		System.out.println(TestCoinSorter.coinCalculator(352, 100));
-//		TestCoinSorter.coinCalculator(600, 2);
-		TestCoinSorter.multiCoinCalculator(941, 2);
-		TestCoinSorter.multiCoinCalculator(562, 50);
-	}
-
 	/**
 	 * Initialise class attributes
 	 */
@@ -133,30 +115,34 @@ public class CoinSorter {
 	 */
 
 	public String multiCoinCalculator(int total, int denominationToExclude) {
-		int rollingTotal = total;
+		int adjustingTotal = total;
 		String output = "The coins exchanged are: ";
 
 		for (int i = 0; i < coinList.size(); i++) {
 			int denomination = coinList.get(i);
 			int coinNum = 0;
 
-			if (rollingTotal > denomination && denomination != denominationToExclude) {
-				coinNum = rollingTotal / denomination;
-				rollingTotal = rollingTotal % denomination;
+			if (adjustingTotal > denomination && denomination != denominationToExclude) {
+				coinNum = adjustingTotal / denomination;
+				adjustingTotal = adjustingTotal % denomination;
 			}
 
-			if (i > 1) {
-				output += ", ";
-			}
-			output += coinNum + " x " + denomination + "p";
+			output += coinNum + " x " + denomination + "p, ";
 		}
 
-		if (rollingTotal > 0) {
-			output += ", with a remainder of " + rollingTotal + "p";
-		}
+		output += "with a remainder of " + adjustingTotal + "p";
 
-		System.out.println(output);
 		return output;
 
+	}
+
+	/**
+	 * displayProgramConfigs() : String • This method should return the following as
+	 * a string: the current currency and the current minimum and maximum value
+	 * accepted as input.
+	 */
+	public String displayProgramConfigs() {
+		return "Currency is set to " + currency + ", current minimum is " + minCoinIn
+				+ ", and current maximum is set to " + maxCoinIn;
 	}
 }
