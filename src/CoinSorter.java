@@ -1,17 +1,13 @@
 import java.util.*;
 
-/**
- * Assignment 1
- */
-
-/**
- * @author Theodoros Gkortsilas
- * @version 0.0.1
- */
 public class CoinSorter {
+	// the currency to be shown in the outputs
 	private String currency;
+	// the minimum amount of coin that can be used as an input
 	private int minCoinIn;
+	// the maximum amount of coin that can be used as an input
 	private int maxCoinIn;
+	// a list of all the coin denominations that input can be exchanged into
 	private List<Integer> coinList;
 
 	/**
@@ -25,40 +21,61 @@ public class CoinSorter {
 	}
 
 	/**
-	 * Setter methods
+	 * Set the program's currency
+	 * 
+	 * @param currency The currency to be used
 	 */
-
 	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
 
+	/**
+	 * Set the minimum amount of coin that can be used as an input
+	 * 
+	 * @param minCoinIn Integer indicating the minimum amount
+	 */
 	public void setMinCoinIn(int minCoinIn) {
 		this.minCoinIn = minCoinIn;
 	}
 
+	/**
+	 * Set the maximum amount of coin that can be used as an input
+	 * 
+	 * @param maxCoinIn Integer indicating the maximum amount
+	 */
 	public void setMaxCoinIn(int maxCoinIn) {
 		this.maxCoinIn = maxCoinIn;
 	}
 
 	/**
-	 * Getter methods
+	 * Get the program's currency
+	 * 
+	 * @return String indicating the currency
 	 */
-
 	public String getCurrency() {
 		return currency;
 	}
 
+	/**
+	 * Get the minimum amount of coin that can be used as an input
+	 * 
+	 * @return Integer indicating the minimum amount
+	 */
 	public int getMinCoinIn() {
 		return minCoinIn;
 	}
 
+	/**
+	 * Get the maximum amount of coin that can be used as an input
+	 * 
+	 * @return Integer indicating the maximum amount
+	 */
 	public int getMaxCoinIn() {
 		return maxCoinIn;
 	}
 
 	/**
-	 * Print the contents of the coin list, indicating what denominations are
-	 * currently in circulation.
+	 * Print the denominations that are currently in circulation.
 	 */
 	public void printCoinList() {
 		String output = "The current coin denominations are in circulation: ";
@@ -72,29 +89,29 @@ public class CoinSorter {
 	}
 
 	/**
-	 * coinCalculator(int, int) : String • This method should take two values; the
-	 * total value to exchange and a coin type, in order to calculate and return the
-	 * maximum number of coins of the input coin type that can be exchanged, in
-	 * addition to the remainder as a string. For example, coinCalculator(562, 50)
-	 * may return “A total of 11 x 50p coins can be exchanged, with a remainder of
-	 * 12p”. For example, given the input value of 352 pennies and the input
-	 * denomination of £1 coins, the output should be three £1 coins and a remainder
-	 * of 52p.
+	 * Calculates and returns a string with the maximum number of coins you can get
+	 * from the given denomination, along with any remainder.
 	 * 
+	 * @param total        Integer indicating the amount for coins to be calculated
+	 * @param denomination Integer indicating the coin denomination to calculate
+	 *                     coins
+	 * 
+	 * @return String output with the number of coins and remainder for the given
+	 *         amount
 	 */
-	public String coinCalculator(int total, int coinType) {
+	public String coinCalculator(int total, int denomination) {
 		String output;
-		String coinCurrency;
-		int totalCoins = total / coinType;
-		int remainder = total % coinType;
+		String coinsWithCurrency;
+		int totalCoins = total / denomination;
+		int remainder = total % denomination;
 
-		if (coinType == 200 || coinType == 100) {
-			coinCurrency = "£" + coinType / 100;
+		if (denomination == 200 || denomination == 100) {
+			coinsWithCurrency = currency + denomination / 100;
 		} else {
-			coinCurrency = coinType + "p";
+			coinsWithCurrency = denomination + "p";
 		}
 
-		output = "A total of " + totalCoins + " x " + coinCurrency + " coins can be exchanged";
+		output = "A total of " + totalCoins + " x " + coinsWithCurrency + " coins can be exchanged";
 
 		if (remainder > 0) {
 			output += ", with a remainder of " + remainder + "p";
@@ -104,16 +121,17 @@ public class CoinSorter {
 	}
 
 	/**
-	 * multiCoinCalculator(int, int) : String • This method should take two values;
-	 * the total value to exchange and a coin type to exclude, in order to calculate
-	 * and return the maximum number of coins of the input coin type that can be
-	 * exchanged while excluding the input coin type, in addition to the remainder
-	 * as a string. For example, multiCoinCalculator(562, 50) may return “The coins
-	 * exchanged are: 2 x 200p, 1 x 100p, 0 x 50p, 3 x 20p, 0 x 10p, with a
-	 * remainder of 2p”.
+	 * Calculates and returns a string with the maximum number of coins you can get
+	 * excluding the given denomination, along with any remainder.
 	 * 
+	 * @param total                 Integer indicating the amount for coins to be
+	 *                              calculated
+	 * @param denominationToExclude Integer indicating the coin denomination to
+	 *                              exclude
+	 * 
+	 * @return String output with the number of coins and remainder for the given
+	 *         amount
 	 */
-
 	public String multiCoinCalculator(int total, int denominationToExclude) {
 		int adjustingTotal = total;
 		String output = "The coins exchanged are: ";
@@ -137,12 +155,12 @@ public class CoinSorter {
 	}
 
 	/**
-	 * displayProgramConfigs() : String • This method should return the following as
-	 * a string: the current currency and the current minimum and maximum value
-	 * accepted as input.
+	 * Print the current program configuration
+	 * 
+	 * @return String indicating current currency, min, and max input coin allowed
 	 */
 	public String displayProgramConfigs() {
-		return "Currency is set to " + currency + ", current minimum is " + minCoinIn
-				+ ", and current maximum is set to " + maxCoinIn;
+		return "Currency is set to " + currency + ", the current minimum input allowed is " + minCoinIn
+				+ ", and the current maximum input allowed is " + maxCoinIn;
 	}
 }
