@@ -4,11 +4,7 @@ public class TestCoinSorter {
 	private static CoinSorter coinSorter;
 	private static Scanner keyboard;
 	private static List<Integer> denominations;
-
-	/**
-	 * TODO: TIDY UP FUNCTIONS
-	 * 
-	 */
+	private static List<String> currencies;
 
 	/**
 	 * Initialise the scanner and coin calculator, and show the main menu
@@ -18,6 +14,7 @@ public class TestCoinSorter {
 	public static void main(String[] args) {
 		keyboard = new Scanner(System.in);
 		denominations = createDenominationsList();
+		currencies = createCommonCurrenciesList();
 		coinSorter = new CoinSorter("�", 0, 10000, denominations);
 		showMenu();
 	}
@@ -43,45 +40,45 @@ public class TestCoinSorter {
 			choice = getIntegerInput();
 
 			switch (choice) {
-				case 1:
-					System.out.println("Enter the amount, you would like to exchange. The number should be in pennies.\n");
-					amountIn = getAmountIn();
+			case 1:
+				System.out.println("Enter the amount, you would like to exchange. The number should be in pennies.\n");
+				amountIn = getAmountIn();
 
-					System.out
-							.println("Enter the denomination of coins you want to exchange. The number should be in pennies.\n");
-					denominationIn = getDenominationIn();
+				System.out.println(
+						"Enter the denomination of coins you want to exchange. The number should be in pennies.\n");
+				denominationIn = getDenominationIn();
 
-					System.out.println(coinSorter.coinCalculator(amountIn, denominationIn));
-					break;
-				case 2:
-					System.out.println("Enter the number of coins you would like to exchange.\n");
-					amountIn = getAmountIn();
+				System.out.println(coinSorter.coinCalculator(amountIn, denominationIn));
+				break;
+			case 2:
+				System.out.println("Enter the number of coins you would like to exchange.\n");
+				amountIn = getAmountIn();
 
-					System.out.println("Exclude a coin denomination for the amount of coins you want to exchange.\n");
-					denominationIn = getDenominationIn();
+				System.out.println("Exclude a coin denomination for the amount of coins you want to exchange.\n");
+				denominationIn = getDenominationIn();
 
-					System.out.println(coinSorter.multiCoinCalculator(amountIn, denominationIn));
-					break;
-				case 3:
-					coinSorter.printCoinList();
-					break;
-				case 4:
-					showSetDetailsMenu();
-					break;
-				case 5:
-					System.out.println();
-					System.out.println(coinSorter.displayProgramConfigs());
-					break;
-				default:
-					if (choice != 6)
-						System.out.println("Unknown option");
+				System.out.println(coinSorter.multiCoinCalculator(amountIn, denominationIn));
+				break;
+			case 3:
+				coinSorter.printCoinList();
+				break;
+			case 4:
+				showSetDetailsMenu();
+				break;
+			case 5:
+				System.out.println();
+				System.out.println(coinSorter.displayProgramConfigs());
+				break;
+			default:
+				if (choice != 6)
+					System.out.println("Unknown option");
 			}
 		} while (choice != 6);
 
 	}
 
 	/**
-	 * Shows submenu to configure current and min/max coins
+	 * Shows submenu to configure currency and min/max coins
 	 */
 	private static void showSetDetailsMenu() {
 		int choice;
@@ -98,47 +95,32 @@ public class TestCoinSorter {
 			choice = getIntegerInput();
 
 			switch (choice) {
-				case 1:
-					String input;
-					boolean validated = false;
-					List<String> currencies = createCommonCurrenciesList();
+			case 1:
+				String input = getCurrencyIn();
+				coinSorter.setCurrency(input);
+				System.out.println("\nCurrency has been set to " + input);
+				break;
+			case 2:
+				do {
+					System.out.println("Please enter a positive number that is less than or equal to " + maxCoin);
+					minCoin = getIntegerInput();
+				} while (minCoin < 0 || minCoin > maxCoin);
 
-					do {
-						System.out.println("\nEnter a currency symbol from the following: " + currencies);
-						input = keyboard.next();
+				coinSorter.setMinCoinIn(minCoin);
+				System.out.println("\nMinimum input allowed has been set to " + minCoin);
+				break;
+			case 3:
+				do {
+					System.out.println("Please enter a positive number that is greater than or equal to " + minCoin);
+					maxCoin = getIntegerInput();
+				} while (maxCoin < 0 && maxCoin < minCoin);
 
-						for (int i = 0; i < currencies.size(); i++) {
-							if (currencies.get(i).equalsIgnoreCase(input)) {
-								validated = true;
-							}
-						}
-					} while (!validated);
-
-					coinSorter.setCurrency(input);
-					System.out.println("\nCurrency has been set to " + input);
-					break;
-				case 2:
-					do {
-						System.out.println("Please enter a positive number that is less than or equal to " + maxCoin);
-						minCoin = getIntegerInput();
-					} while (minCoin < 0 || minCoin > maxCoin);
-
-					coinSorter.setMinCoinIn(minCoin);
-					System.out.println();
-					System.out.println("Minimum input allowed has been set to " + minCoin);
-					break;
-				case 3:
-					do {
-						System.out.println("Please enter a positive number that is greater than or equal to " + minCoin);
-						maxCoin = getIntegerInput();
-					} while (maxCoin < 0 && maxCoin < minCoin);
-
-					coinSorter.setMaxCoinIn(maxCoin);
-					System.out.println("\nMaximum input allowed has been set to " + maxCoin);
-					break;
-				default:
-					if (choice != 4)
-						System.out.println("Unknown option");
+				coinSorter.setMaxCoinIn(maxCoin);
+				System.out.println("\nMaximum input allowed has been set to " + maxCoin);
+				break;
+			default:
+				if (choice != 4)
+					System.out.println("Unknown option");
 			}
 		} while (choice != 4);
 	}
@@ -188,6 +170,28 @@ public class TestCoinSorter {
 			denominationIn = getIntegerInput();
 		}
 		return denominationIn;
+	}
+
+	/**
+	 * Gets string input and ensures it is a valid currency
+	 * 
+	 * @return string currency
+	 */
+	private static String getCurrencyIn() {
+		String input;
+		boolean validated = false;
+
+		do {
+			System.out.println("\nEnter a currency symbol from the following: " + currencies);
+			input = keyboard.next();
+
+			for (int i = 0; i < currencies.size(); i++) {
+				if (currencies.get(i).equalsIgnoreCase(input)) {
+					validated = true;
+				}
+			}
+		} while (!validated);
+		return input;
 	}
 
 	/**
