@@ -140,7 +140,7 @@ public class CoinSorter {
 			int denomination = coinList.get(i);
 			int coinNum = 0;
 
-			if (adjustingTotal > denomination && denomination != denominationToExclude) {
+			if (adjustingTotal >= denomination && denomination != denominationToExclude) {
 				coinNum = adjustingTotal / denomination;
 				adjustingTotal = adjustingTotal % denomination;
 			}
