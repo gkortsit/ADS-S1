@@ -92,29 +92,30 @@ public class CoinSorter {
 	 * Calculates and returns a string with the maximum number of coins you can get
 	 * from the given denomination, along with any remainder.
 	 * 
-	 * @param total        Integer indicating the amount for coins to be calculated
-	 * @param denomination Integer indicating the coin denomination to calculate
-	 *                     coins
+	 * @param amountIn       Integer indicating the amount for coins to be
+	 *                       calculated
+	 * @param denominationIn Integer indicating the coin denomination to calculate
+	 *                       coins
 	 * 
 	 * @return String output with the number of coins and remainder for the given
 	 *         amount
 	 */
-	public String coinCalculator(int total, int denomination) {
+	public String coinCalculator(int amountIn, int denominationIn) {
+		int result;
+		int remainder;
 		String output;
-		String coinsWithCurrency;
-		int totalCoins = total / denomination;
-		int remainder = total % denomination;
 
-		if (denomination == 200 || denomination == 100) {
-			coinsWithCurrency = currency + denomination / 100;
-		} else {
-			coinsWithCurrency = denomination + "p";
+		if (!coinList.contains(denominationIn)) {
+			return "Invalid denomination.\n Please choose from the following list: " + coinList;
 		}
 
-		output = "A total of " + totalCoins + " x " + coinsWithCurrency + " coins can be exchanged";
+		result = amountIn / denominationIn;
+		remainder = amountIn % denominationIn;
+
+		output = "A total of " + result + " x " + denominationIn + currency + " coins can be exchanged";
 
 		if (remainder > 0) {
-			output += ", with a remainder of " + remainder + "p";
+			output += ", with a remainder of " + remainder + currency + " coin";
 		}
 
 		return output;
@@ -124,7 +125,7 @@ public class CoinSorter {
 	 * Calculates and returns a string with the maximum number of coins you can get
 	 * excluding the given denomination, along with any remainder.
 	 * 
-	 * @param total                 Integer indicating the amount for coins to be
+	 * @param amountIn              Integer indicating the amount for coins to be
 	 *                              calculated
 	 * @param denominationToExclude Integer indicating the coin denomination to
 	 *                              exclude
@@ -132,25 +133,32 @@ public class CoinSorter {
 	 * @return String output with the number of coins and remainder for the given
 	 *         amount
 	 */
-	public String multiCoinCalculator(int total, int denominationToExclude) {
-		int adjustingTotal = total;
-		String output = "The coins exchanged are: ";
+	public String multiCoinCalculator(int amountIn, int denominationToExclude) {
+		int adjustingAmount;
+		String validOutput;
+
+		if (!coinList.contains(denominationToExclude)) {
+			return "Invalid denomination.\n Please choose from the following list: " + coinList;
+		}
+
+		adjustingAmount = amountIn;
+		validOutput = "The coins exchanged are: ";
 
 		for (int i = 0; i < coinList.size(); i++) {
 			int denomination = coinList.get(i);
 			int coinNum = 0;
 
-			if (adjustingTotal >= denomination && denomination != denominationToExclude) {
-				coinNum = adjustingTotal / denomination;
-				adjustingTotal = adjustingTotal % denomination;
+			if (adjustingAmount >= denomination && denomination != denominationToExclude) {
+				coinNum = adjustingAmount / denomination;
+				adjustingAmount = adjustingAmount % denomination;
 			}
 
-			output += coinNum + " x " + denomination + "p, ";
+			validOutput += coinNum + " x " + denomination + currency + ", ";
 		}
 
-		output += "with a remainder of " + adjustingTotal + "p";
+		validOutput += "with a remainder of " + adjustingAmount + currency;
 
-		return output;
+		return validOutput;
 
 	}
 
