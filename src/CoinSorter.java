@@ -75,9 +75,9 @@ public class CoinSorter {
 	}
 
 	/**
-	 * Print the denominations that are currently in circulation.
+	 * Return denominations that are currently in circulation.
 	 */
-	public void printCoinList() {
+	public String printCoinList() {
 		String output = "The current coin denominations are in circulation: ";
 		for (int i = 0; i < coinList.size(); i++) {
 			output += coinList.get(i);
@@ -85,7 +85,7 @@ public class CoinSorter {
 				output += ", ";
 			}
 		}
-		System.out.println(output);
+		return output;
 	}
 
 	/**

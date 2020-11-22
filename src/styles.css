@@ -1,0 +1,46 @@
+.root {
+  -fx-font: 16px "Arial";
+  -fx-background-color: #fff;
+}
+
+.header {
+  -fx-border-width: 5;
+  -fx-border-color: #f2f2f2;
+  -fx-border-style: solid;
+  -fx-border-width: 0 0 1 0;
+  -fx-font-size: 26px;
+  -fx-font-weight: 700;
+  -fx-padding: 20px;
+}
+
+.menu {
+  -fx-font-size: 20px;
+  -fx-font-weight: bold;
+  -fx-font-style: italic;
+  -fx-border-width: 5;
+  -fx-border-color: #f2f2f2;
+  -fx-border-style: solid;
+  -fx-border-width: 0 1 0 0;
+}
+
+.menu .button {
+  -fx-background-color: transparent;
+  -fx-font-style: normal;
+  -fx-font-color: #f7ffdd;
+  -fx-font-weight: bold;
+  -fx-font-size: 14px;
+  -fx-padding: 10;
+}
+
+.menu .button:hover {
+  -fx-background-color: #d3d3d3;
+}
+
+.menu .button:pressed {
+  -fx-background-color: #c0c0c0;
+}
+
+.output {
+  -fx-background-color: #0b0b0b;
+  -fx-text-fill: #fff;
+}

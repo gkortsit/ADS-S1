@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class TestCoinSorter {
@@ -10,12 +11,7 @@ public class TestCoinSorter {
 		int choice;
 
 		// Create a list of valid denominations
-		denominations = new ArrayList<>();
-		denominations.add(200);
-		denominations.add(100);
-		denominations.add(50);
-		denominations.add(20);
-		denominations.add(10);
+		denominations = new ArrayList<>(Arrays.asList(200, 100, 50, 20, 10));
 
 		// initialize keyboard input
 		keyboard = new Scanner(System.in);
@@ -76,7 +72,7 @@ public class TestCoinSorter {
 		} while (amountIn < minCoinIn || amountIn > maxCoinIn);
 
 		System.out.println("\nEnter the denomination of coins you want to exchange.");
-		coinSorter.printCoinList();
+		System.out.println(coinSorter.printCoinList());
 		denominationIn = getIntegerInput();
 
 		// pass the inputs into the coinCalcutor function print the output
@@ -97,7 +93,7 @@ public class TestCoinSorter {
 		} while (amountIn < minCoinIn || amountIn > maxCoinIn);
 
 		System.out.println("\nEnter the denomination of coins you want to exclude from the exchange.");
-		coinSorter.printCoinList();
+		System.out.println(coinSorter.printCoinList());
 		denominationIn = getIntegerInput();
 
 		// pass the inputs into the multiCoinCalculator function print the output
@@ -105,7 +101,7 @@ public class TestCoinSorter {
 	}
 
 	static void selection3() {
-		coinSorter.printCoinList();
+		System.out.println(coinSorter.printCoinList());
 	}
 
 	static void selection4() {
